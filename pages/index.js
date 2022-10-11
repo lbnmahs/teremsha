@@ -1,12 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { client } from '../lib/client';
+import { Product, FooterBanner, HeroBanner } from '../components';
 
-const index = () => {
+const Home = () => {
   return (
     <>
-      HeroBanner
+      <HeroBanner />
 
       <div className="products-heading">
-        <div>Best selling products</div>
+        <h2>Best selling products</h2>
         <p>Info about the best selling products</p>
       </div>
       
@@ -19,9 +21,21 @@ const index = () => {
         }
       </div>
 
-      Footer
+      <FooterBanner />
     </>
   )
 }
 
-export default index
+export const getServerSideProps = async () => {
+  const productQuery = '*[_type == "product"]';
+  const products = await client.fetch(productQuery);
+
+  const bannerQuery = '*[_type == "banner"]';
+  const bannerData = await client.fetch(bannerQuery);
+
+  return {
+    props: { products, bannerData }
+  }
+}
+
+export default Home
