@@ -2,10 +2,12 @@ import React from 'react';
 import { client } from '../lib/client';
 import { Product, FooterBanner, HeroBanner } from '../components';
 
-const Home = () => {
+const Home = ({ products, bannerData }) => {
   return (
     <>
-      <HeroBanner />
+      <HeroBanner 
+        heroBanner={bannerData?.length && bannerData[0]}
+      />
 
       <div className="products-heading">
         <h2>Best selling products</h2>
@@ -14,14 +16,18 @@ const Home = () => {
       
       <div className="products-container">
         {
-          // Loop through the products and display them
-          ["Product 1", "Product 2", "Product 3"].map((product) => (
-            <div>{product}</div>
-          ))
+          products?.map((product) => 
+            <Product 
+              key={product._id}
+              product={product}
+            />
+          )
         }
       </div>
 
-      <FooterBanner />
+      <FooterBanner 
+        footerBanner={bannerData?.length && bannerData[0]}
+      />
     </>
   )
 }
